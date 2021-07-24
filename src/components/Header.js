@@ -2,54 +2,68 @@ import React from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../constants/colors";
 
-import Icon from "react-native-vector-icons/Feather";
+import Button from "./Button";
 
 export default function Header({
-  navigation,
-  trailingIcon,
+  title,
+  leadingText,
+  trailingText,
+  trailingName,
   trailingFunction,
-  leadingIcon = "chevron-left",
+  leadingName,
   leadingFunction,
 }) {
-  const handleBack = () => {
-    navigation.goBack();
+  const getLeadingButton = () => {
+    if (leadingText)
+      return (
+        <TouchableOpacity onPress={leadingFunction}>
+          <Text style={styles.textButton}>{leadingText}</Text>
+        </TouchableOpacity>
+      );
+    return <Button plain icon={leadingName} onPress={leadingFunction} />;
   };
 
+  const getTrailingButton = () => {
+    if (trailingText)
+      return (
+        <TouchableOpacity onPress={trailingFunction}>
+          <Text style={styles.textButton}>{trailingText}</Text>
+        </TouchableOpacity>
+      );
+    return <Button plain icon={trailingName} onPress={trailingFunction} />;
+  };
   return (
     <View style={styles.header}>
-      {navigation ? (
-        <TouchableOpacity onPress={leadingFunction || handleBack}>
-          <Icon style={styles.icon} name={leadingIcon} />
-        </TouchableOpacity>
-      ) : (
-        <Icon style={styles.icon} />
-      )}
-      <Text style={styles.title}>Post</Text>
-      {trailingFunction ? (
-        <TouchableOpacity onPress={trailingFunction}>
-          <Icon style={styles.icon} name={trailingIcon} />
-        </TouchableOpacity>
-      ) : (
-        <Icon style={styles.icon} />
-      )}
+      <Text style={styles.title}>{title}</Text>
+      {getLeadingButton()}
+      {getTrailingButton()}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   header: {
+    marginTop: -20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
   },
   title: {
     textAlign: "center",
     fontFamily: "WorkSansSemiBold",
     fontSize: 25,
+    position: "absolute",
+    right: 0,
+    left: 0,
   },
-  icon: {
-    fontSize: 25,
-    color: colors.primary,
+  button: {
+    textAlign: "center",
+    fontFamily: "WorkSansSemiBold",
+    fontSize: 15,
+  },
+  textButton: {
+    fontSize: 15,
+    fontFamily: "WorkSansSemiBold",
+    color: colors.error,
   },
 });

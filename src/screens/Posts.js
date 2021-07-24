@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, Text } from "react-native";
+import { View, Text } from "react-native";
 import styles from "../constants/baseStyle";
 import { getData } from "../api";
+
+import Button from "../components/Button";
 import PostCard from "../components/PostCard";
+import Header from "../components/Header";
 import Screen from "../components/Screen";
 
 export default function Posts({ navigation }) {
@@ -23,8 +26,12 @@ export default function Posts({ navigation }) {
     fetchData();
   }, []);
 
-  const handleOnPress = (id) => {
+  const handleOpen = (id) => {
     navigation.navigate("Post", { id });
+  };
+
+  const handleNew = (id) => {
+    navigation.navigate("NewPost");
   };
 
   const renderPosts = () => {
@@ -37,7 +44,7 @@ export default function Posts({ navigation }) {
     } else {
       return data.map((post) => {
         return (
-          <PostCard key={post.id} handleOnPress={handleOnPress} data={post} />
+          <PostCard key={post.id} handleOnPress={handleOpen} data={post} />
         );
       });
     }
@@ -45,6 +52,7 @@ export default function Posts({ navigation }) {
 
   return (
     <Screen>
+      <Header trailingName={"add"} trailingFunction={handleNew} />
       <Text style={styles.title}>Posts</Text>
       <Text style={styles.subTitle}>Bem vindo ao blog da MK Solutions!</Text>
       {renderPosts()}

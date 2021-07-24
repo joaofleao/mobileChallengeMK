@@ -19,6 +19,10 @@ export default function TutorialScreen({ route, navigation }) {
     }
   };
 
+  const handleBack = async () => {
+    navigation.goBack();
+  };
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -38,8 +42,10 @@ export default function TutorialScreen({ route, navigation }) {
   return (
     <Screen>
       <Header
-        navigation={navigation}
-        trailingIcon="share-2"
+        title="Post"
+        leadingName="arrow-back-ios"
+        leadingFunction={handleBack}
+        trailingName="share"
         trailingFunction={handleShare}
       />
       <Text style={styles.postTitle}>{data.title}</Text>

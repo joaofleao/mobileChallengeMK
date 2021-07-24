@@ -13,6 +13,7 @@ const Tab = createBottomTabNavigator();
 
 import Posts from "./screens/Posts.js";
 import Post from "./screens/Post.js";
+import NewPost from "./screens/NewPost.js";
 
 const androidStyles = StyleSheet.create({
   container: {
@@ -104,6 +105,7 @@ function Home() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Posts} />
       <Stack.Screen name="Post" component={Post} />
+      <Stack.Screen name="NewPost" component={NewPost} />
     </Stack.Navigator>
   );
 }
