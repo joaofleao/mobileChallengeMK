@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "MK Solutions",
+    "slug": "MKSolutions",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo_Square.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#29589D"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo_Square.png",
+        "backgroundColor": "#29589D"
+      }
+    },
+    "web": {
+      "favicon": "./assets/logo.svg"
+    }
+  }
+}
