@@ -6,16 +6,16 @@ import Button from "../components/Button";
 
 export default function EditableCard({
   data,
-  handleOnPress,
+  onPress,
   onPressDelete,
   onPressEdit,
 }) {
   return (
     <TouchableOpacity
-      onPress={() => handleOnPress(data.id, data.userId)}
+      onPress={() => onPress(data.id, data.userId)}
       style={styles.card}
     >
-      <Button plain icon="delete" onPress={onPressDelete} />
+      <Button plain icon="delete" onPress={() => onPressDelete(data.id)} />
       <Text style={styles.title}>{data.title}</Text>
       <Button plain icon="edit" onPress={onPressEdit} />
     </TouchableOpacity>

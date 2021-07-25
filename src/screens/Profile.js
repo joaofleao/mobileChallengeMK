@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, AsyncStorage } from "react-native";
+import { Text, View, AsyncStorage, Alert } from "react-native";
 import styles from "../constants/baseStyle";
 
 import Screen from "../components/Screen";
@@ -28,6 +28,41 @@ export default function Search({ navigation }) {
     navigation.navigate("Post", { id, userId });
   };
 
+  const warnDelete = async (id) => {
+    Alert.alert(
+      "Excluir Post",
+      "Você está prestes a excluir um post, tem certeza que quer realizar essa ação?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        { text: "Excluir", onPress: () => handleDelete(id) },
+      ]
+    );
+  };
+
+  const handleDelete = async (id) => {
+    let newPosts = [];
+
+    data.forEach((element) => {
+      console.log(id);
+      if (element.id !== id) newPosts.push(element);
+    });
+
+    setData(newPosts);
+
+    try {
+      // await AsyncStorage.setItem("posts", JSON.stringify(newPosts));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  const handleEdit = (id) => {
+    navigation.navigate("NewPost", { data });
+  };
+
   const renderPosts = () => {
     if (data.length === 0) {
       return (
@@ -38,7 +73,13 @@ export default function Search({ navigation }) {
     } else {
       return data.map((post) => {
         return (
-          <EditableCard key={post.id} handleOnPress={handleOpen} data={post} />
+          <EditableCard
+            key={post.id}
+            onPressDelete={warnDelete}
+            onPressEdit={handleEdit}
+            onPress={handleOpen}
+            data={post}
+          />
         );
       });
     }

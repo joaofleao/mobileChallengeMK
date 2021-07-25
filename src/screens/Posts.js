@@ -3,7 +3,6 @@ import { View, Text } from "react-native";
 import styles from "../constants/baseStyle";
 import { getData } from "../api";
 
-import Button from "../components/Button";
 import PostCard from "../components/PostCard";
 import Header from "../components/Header";
 import Screen from "../components/Screen";
