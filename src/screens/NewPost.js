@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text } from "react-native";
+import { Text, AsyncStorage } from "react-native";
 import styles from "../constants/baseStyle";
 
 import Screen from "../components/Screen";
@@ -7,7 +7,7 @@ import Header from "../components/Header";
 import TextField from "../components/TextField";
 import DatePicker from "../components/DatePicker";
 
-export default function TutorialScreen({ route, navigation }) {
+export default function NewPost({ navigation }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [author, setAuthor] = useState("");
@@ -18,18 +18,33 @@ export default function TutorialScreen({ route, navigation }) {
   };
 
   const handleSave = async () => {
-    console.log(title);
-    console.log(body);
-    console.log(author);
-    console.log(date);
+    let posts = JSON.parse(await AsyncStorage.getItem("posts"));
+
+    const newPost = {
+      title,
+      body,
+      author,
+      date,
+      userId: 0,
+      id: posts.length,
+    };
+
+    posts.push(newPost);
+
+    try {
+      await AsyncStorage.setItem("posts", JSON.stringify(posts));
+    } catch (error) {
+      console.log(error.message);
+    }
+    navigation.goBack();
   };
 
   return (
-    <Screen buttonText="Salvar" buttonFunction={handleSave}>
+    <Screen buttonText="Publicar" buttonFunction={handleSave}>
       <Header leadingFunction={handleBack} leadingText="Cancelar" />
       <Text style={styles.title}>Novo post</Text>
       <Text style={styles.subTitle}>
-        Preencha as seguintes informações para realizar uma nova publicação
+        Preencha as informações para realizar uma nova publicação
       </Text>
       <TextField
         size={50}

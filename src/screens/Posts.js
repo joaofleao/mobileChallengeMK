@@ -26,11 +26,11 @@ export default function Posts({ navigation }) {
     fetchData();
   }, []);
 
-  const handleOpen = (id) => {
-    navigation.navigate("Post", { id });
+  const handleOpen = (id, userId) => {
+    navigation.navigate("Post", { id, userId });
   };
 
-  const handleNew = (id) => {
+  const handleNew = () => {
     navigation.navigate("NewPost");
   };
 

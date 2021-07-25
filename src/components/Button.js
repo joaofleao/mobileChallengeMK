@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 10,
-    borderRadius: 9,
+    borderRadius: 50,
   },
   regularButton: {
     minWidth: 130,

@@ -14,28 +14,24 @@ const Tab = createBottomTabNavigator();
 import Posts from "./screens/Posts.js";
 import Post from "./screens/Post.js";
 import NewPost from "./screens/NewPost.js";
+import Search from "./screens/Search.js";
+import Profile from "./screens/Profile.js";
 
 const androidStyles = StyleSheet.create({
   container: {
     height: 70,
-    borderTopWidth: 1,
-    borderTopColor: colors.primary,
-    paddingTop: 7,
-  },
-  labelStyle: {
-    fontSize: 15,
-    marginBottom: 11,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    elevation: 20,
   },
 });
 
 const iOSStyles = StyleSheet.create({
   container: {
-    borderTopWidth: 1,
-    borderTopColor: colors.primary,
-    paddingTop: 5,
-  },
-  labelStyle: {
-    fontSize: 14,
+    height: 70,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    elevation: 5,
   },
 });
 
@@ -56,6 +52,7 @@ export function Routes() {
     <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={{
+          showLabel: false,
           activeTintColor: colors.primary,
           inactiveTintColor: colors.textDisabled,
           initialRouteName: "Home",
@@ -73,34 +70,30 @@ export function Routes() {
         <Tab.Screen
           name="Home"
           options={{
-            title: "Posts",
             tabBarIcon: (e) => Icon({ focused: e.focused, name: "home" }),
           }}
-          component={Home}
+          component={HomeTab}
         />
-
         <Tab.Screen
           name="Search"
           options={{
-            title: "Buscar",
             tabBarIcon: (e) => Icon({ focused: e.focused, name: "search" }),
           }}
-          component={Search}
+          component={SearchTab}
         />
         <Tab.Screen
           name="Profile"
           options={{
-            title: "Perfil",
             tabBarIcon: (e) => Icon({ focused: e.focused, name: "user" }),
           }}
-          component={Profile}
+          component={ProfileTab}
         />
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
 
-function Home() {
+function HomeTab() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Posts} />
@@ -110,18 +103,20 @@ function Home() {
   );
 }
 
-function Search() {
+function SearchTab() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="b" component={Home} />
+      <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Post" component={Post} />
     </Stack.Navigator>
   );
 }
 
-function Profile() {
+function ProfileTab() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="c" component={Home} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Post" component={Post} />
     </Stack.Navigator>
   );
 }

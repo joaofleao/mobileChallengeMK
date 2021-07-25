@@ -2,16 +2,22 @@ import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import colors from "../constants/colors";
 
-export default function PostCard({ data, handleOnPress }) {
+import Button from "../components/Button";
+
+export default function EditableCard({
+  data,
+  handleOnPress,
+  onPressDelete,
+  onPressEdit,
+}) {
   return (
     <TouchableOpacity
       onPress={() => handleOnPress(data.id, data.userId)}
       style={styles.card}
     >
+      <Button plain icon="delete" onPress={onPressDelete} />
       <Text style={styles.title}>{data.title}</Text>
-      <Text numberOfLines={1} style={styles.body}>
-        {data.body}
-      </Text>
+      <Button plain icon="edit" onPress={onPressEdit} />
     </TouchableOpacity>
   );
 }
@@ -21,18 +27,18 @@ const styles = StyleSheet.create({
     fontFamily: "WorkSansMedium",
     fontSize: 18,
     color: colors.text,
-    marginBottom: 10,
-  },
-  body: {
-    fontFamily: "WorkSansMedium",
-    fontSize: 11,
-    color: colors.text,
+    width: "60%",
+    textAlign: "center",
   },
   card: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: colors.background,
     borderRadius: 20,
     elevation: 2,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
     marginBottom: 20,
   },
 });

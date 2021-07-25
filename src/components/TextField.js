@@ -8,6 +8,7 @@ export default function TextField({
   placeholder,
   label,
   size,
+  multiline,
 }) {
   return (
     <View>
@@ -19,7 +20,7 @@ export default function TextField({
         maxLength={size}
         onChangeText={onChange}
         value={value}
-        multiline
+        multiline={multiline}
         style={styles.textField}
         placeholder={placeholder}
       />
