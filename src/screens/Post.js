@@ -14,16 +14,16 @@ export default function Post({ route, navigation }) {
       try {
         const { id, userId } = route.params;
         let data;
-        console.log(userId);
         if (userId === 0) {
-          data = JSON.parse(await AsyncStorage.getItem("posts"))[id];
+          const posts = JSON.parse(await AsyncStorage.getItem("posts"));
+          data = posts.find((x) => x.id === id);
         } else {
           const response = await getPost(id);
           data = response.data;
         }
         setData(data);
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     }
 
@@ -48,13 +48,13 @@ export default function Post({ route, navigation }) {
     <Screen>
       <Header
         title="Post"
-        leadingName="arrow-back-ios"
+        leadingName="chevron-left"
         leadingFunction={handleBack}
-        trailingName="share"
+        trailingName="share-2"
         trailingFunction={handleShare}
       />
       <Text style={styles.postTitle}>{data.title}</Text>
-      <Text style={styles.subTitle}>{data.body}</Text>
+      <Text style={styles.description}>{data.body}</Text>
     </Screen>
   );
 }

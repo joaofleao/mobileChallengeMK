@@ -29,10 +29,15 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   card: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundItem,
     borderRadius: 20,
-    elevation: 2,
+
     padding: 20,
     marginBottom: 20,
+    elevation: 10,
+
+    shadowColor: "#29589D",
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
   },
 });

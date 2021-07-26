@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, AsyncStorage } from "react-native";
 import styles from "../constants/baseStyle";
 import { getData } from "../api";
 
@@ -13,12 +13,14 @@ export default function Posts({ navigation }) {
   useEffect(() => {
     async function fetchData() {
       try {
+        const posts = JSON.parse(await AsyncStorage.getItem("posts"));
+        if (!posts) await AsyncStorage.setItem("posts", JSON.stringify([]));
+
         const response = await getData();
         const data = response.data;
         setData(data);
       } catch (error) {
-        console.log("error");
-        return;
+        console.log(error.message);
       }
     }
 
@@ -30,7 +32,7 @@ export default function Posts({ navigation }) {
   };
 
   const handleNew = () => {
-    navigation.navigate("NewPost");
+    navigation.navigate("NewPost", { id: -1 });
   };
 
   const renderPosts = () => {
@@ -51,7 +53,7 @@ export default function Posts({ navigation }) {
 
   return (
     <Screen>
-      <Header trailingName={"add"} trailingFunction={handleNew} />
+      <Header trailingName={"plus"} trailingFunction={handleNew} />
       <Text style={styles.title}>Posts</Text>
       <Text style={styles.subTitle}>Bem vindo ao blog da MK Solutions!</Text>
       {renderPosts()}

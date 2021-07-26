@@ -1,72 +1,92 @@
 import "react-native-gesture-handler";
 import colors from "./constants/colors";
 import * as React from "react";
-import { StyleSheet, AsyncStorage } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { setStatusBarStyle } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import FontAwesomeIcon from "react-native-vector-icons/Feather";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 import Posts from "./screens/Posts.js";
+import Onboarding from "./screens/Onboarding.js";
 import Post from "./screens/Post.js";
 import NewPost from "./screens/NewPost.js";
 import Search from "./screens/Search.js";
 import Profile from "./screens/Profile.js";
 
-const androidStyles = StyleSheet.create({
-  container: {
-    height: 70,
+const Icon = ({ focused, name }) => {
+  return (
+    <FontAwesomeIcon
+      name={name}
+      size={focused ? 27 : 24}
+      color={focused ? colors.primary : colors.textPlaceHolder}
+    />
+  );
+};
+
+const styles = StyleSheet.create({
+  screen: {
+    paddingTop: 40,
+    backgroundColor: colors.background,
+    flex: 1,
+  },
+  iosContainer: {
+    height: 80,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    elevation: 20,
+  },
+  androidContainer: {
+    height: 80,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     elevation: 20,
   },
 });
 
-const iOSStyles = StyleSheet.create({
-  container: {
-    height: 70,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    elevation: 5,
-  },
-});
-
-const Icon = ({ focused, name }) => {
-  return (
-    <FontAwesomeIcon
-      name={name}
-      size={24}
-      size={focused ? 27 : 24}
-      color={focused ? colors.primary : colors.textDisabled}
-    />
-  );
+const navigationBarOptions = {
+  showLabel: false,
+  activeTintColor: colors.primary,
+  inactiveTintColor: colors.textDisabled,
+  initialRouteName: "Home",
+  keyboardHidesTabBar: true,
+  style:
+    Platform.OS === "android" ? styles.androidContainer : styles.iosContainer,
 };
 
 export function Routes() {
-  setStatusBarStyle("dark");
+  setStatusBarStyle("light");
   return (
     <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="Tabs" component={Tabs} />
+        <Stack.Screen name="NewPost" component={NewPost} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function Tabs() {
+  setStatusBarStyle("dark");
+  return (
+    <View style={styles.screen}>
       <Tab.Navigator
-        tabBarOptions={{
-          showLabel: false,
-          activeTintColor: colors.primary,
-          inactiveTintColor: colors.textDisabled,
-          initialRouteName: "Home",
-          keyboardHidesTabBar: true,
-          labelStyle:
-            Platform.OS === "android"
-              ? androidStyles.labelStyle
-              : iOSStyles.labelStyle,
-          style:
-            Platform.OS === "android"
-              ? androidStyles.container
-              : iOSStyles.container,
-        }}
+        tabBarOptions={navigationBarOptions}
+        initialRouteName="Home"
+        backBehavior="initialRoute"
       >
+        <Tab.Screen
+          name="Profile"
+          options={{
+            tabBarIcon: (e) => Icon({ focused: e.focused, name: "user" }),
+          }}
+          component={ProfileTab}
+        />
         <Tab.Screen
           name="Home"
           options={{
@@ -81,15 +101,8 @@ export function Routes() {
           }}
           component={SearchTab}
         />
-        <Tab.Screen
-          name="Profile"
-          options={{
-            tabBarIcon: (e) => Icon({ focused: e.focused, name: "user" }),
-          }}
-          component={ProfileTab}
-        />
       </Tab.Navigator>
-    </NavigationContainer>
+    </View>
   );
 }
 
@@ -98,7 +111,6 @@ function HomeTab() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Home" component={Posts} />
       <Stack.Screen name="Post" component={Post} />
-      <Stack.Screen name="NewPost" component={NewPost} />
     </Stack.Navigator>
   );
 }

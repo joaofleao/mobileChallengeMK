@@ -3,17 +3,19 @@ import { Text, View, AsyncStorage, Alert } from "react-native";
 import styles from "../constants/baseStyle";
 
 import Screen from "../components/Screen";
-import Header from "../components/Header";
 import EditableCard from "../components/EditableCard";
+import ProfileCard from "../components/ProfileCard";
 
 export default function Search({ navigation }) {
   const [data, setData] = useState([]);
+  const [name, setName] = useState("");
 
   useEffect(() => {
     async function fetchData() {
       try {
         const posts = JSON.parse(await AsyncStorage.getItem("posts"));
-        // console.log(posts);
+        const name = await AsyncStorage.getItem("name");
+        setName(name);
         setData(posts);
       } catch (error) {
         console.log("error");
@@ -46,21 +48,47 @@ export default function Search({ navigation }) {
     let newPosts = [];
 
     data.forEach((element) => {
-      console.log(id);
-      if (element.id !== id) newPosts.push(element);
+      if (element.id !== id) newPosts.push({ ...element, id: newPosts.length });
     });
 
     setData(newPosts);
 
     try {
-      // await AsyncStorage.setItem("posts", JSON.stringify(newPosts));
+      await AsyncStorage.setItem("posts", JSON.stringify(newPosts));
     } catch (error) {
       console.log(error.message);
     }
   };
 
   const handleEdit = (id) => {
-    navigation.navigate("NewPost", { data });
+    navigation.navigate("NewPost", { id });
+  };
+
+  const logOut = () => {
+    navigation.navigate("Onboarding");
+  };
+
+  const warnClean = async () => {
+    Alert.alert(
+      "Excluir Posts",
+      "Você está prestes a excluir TODOS os seus posts, tem certeza que quer realizar essa ação?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        { text: "Excluir", onPress: () => clearPosts() },
+      ]
+    );
+  };
+
+  const clearPosts = async () => {
+    try {
+      await AsyncStorage.setItem("posts", JSON.stringify([]));
+    } catch (error) {
+      console.log(error.message);
+    }
+    setData([]);
   };
 
   const renderPosts = () => {
@@ -86,9 +114,13 @@ export default function Search({ navigation }) {
   };
   return (
     <Screen>
-      <Header />
-      <Text style={styles.title}>Meu Perfil</Text>
-      <Text style={styles.subTitle}>Gerencie seus posts</Text>
+      <ProfileCard
+        trailingFunction={logOut}
+        leadingFunction={warnClean}
+        name={name}
+        numberOfPosts={data.length}
+      />
+      <Text style={styles.subTitle}>Suas publicações</Text>
       {renderPosts()}
     </Screen>
   );

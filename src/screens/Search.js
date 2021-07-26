@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, AsyncStorage } from "react-native";
 import styles from "../constants/baseStyle";
 import { getData } from "../api";
 
@@ -18,10 +18,17 @@ export default function Search({ navigation }) {
     async function fetchData() {
       try {
         const response = await getData();
-        const data = response.data;
-        setData(data);
+        const newData = response.data;
+
+        const posts = JSON.parse(await AsyncStorage.getItem("posts"));
+
+        posts.forEach((element) => {
+          newData.push(element);
+        });
+
+        setData(newData);
       } catch (error) {
-        console.log("error");
+        console.log(error.message);
         return;
       }
     }
@@ -67,7 +74,12 @@ export default function Search({ navigation }) {
       <Header />
       <Text style={styles.title}>Buscar</Text>
       <Text style={styles.subTitle}>Busque posts por seus títulos</Text>
-      <TextField onChange={(text) => handleSearch(text)} value={searched} />
+      <TextField
+        placeholder="Buscar"
+        icon="search"
+        onChange={(text) => handleSearch(text)}
+        value={searched}
+      />
       {renderPosts()}
     </Screen>
   );

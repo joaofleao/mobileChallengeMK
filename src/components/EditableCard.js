@@ -15,9 +15,9 @@ export default function EditableCard({
       onPress={() => onPress(data.id, data.userId)}
       style={styles.card}
     >
-      <Button plain icon="delete" onPress={() => onPressDelete(data.id)} />
+      <Button plain icon="trash" onPress={() => onPressDelete(data.id)} />
       <Text style={styles.title}>{data.title}</Text>
-      <Button plain icon="edit" onPress={onPressEdit} />
+      <Button plain icon="edit-2" onPress={() => onPressEdit(data.id)} />
     </TouchableOpacity>
   );
 }
@@ -34,9 +34,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: colors.background,
+    backgroundColor: colors.backgroundItem,
     borderRadius: 20,
-    elevation: 2,
+    elevation: 10,
     paddingVertical: 20,
     paddingHorizontal: 10,
     marginBottom: 20,

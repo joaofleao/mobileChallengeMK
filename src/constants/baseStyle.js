@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   subTitle: {
+    fontFamily: "WorkSansSemiBold",
+    fontSize: 25,
+    marginBottom: 20,
+    color: colors.primary,
+  },
+  description: {
     fontFamily: "WorkSansLight",
     fontSize: 20,
     color: colors.text,

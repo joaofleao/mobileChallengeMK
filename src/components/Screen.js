@@ -16,8 +16,6 @@ export default function Screen({ children, buttonText, buttonFunction }) {
 
 const styles = StyleSheet.create({
   screen: {
-    paddingTop: 40,
-    backgroundColor: colors.background,
     flex: 1,
   },
   scroll: {

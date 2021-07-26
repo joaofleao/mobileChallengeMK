@@ -12,6 +12,7 @@ export default function Header({
   trailingFunction,
   leadingName,
   leadingFunction,
+  cardStyle,
 }) {
   const getLeadingButton = () => {
     if (leadingText)
@@ -33,7 +34,7 @@ export default function Header({
     return <Button plain icon={trailingName} onPress={trailingFunction} />;
   };
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, title && styles.titledHeader, cardStyle]}>
       <Text style={styles.title}>{title}</Text>
       {getLeadingButton()}
       {getTrailingButton()}
@@ -47,6 +48,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  titledHeader: {
+    marginBottom: 20,
   },
   title: {
     textAlign: "center",

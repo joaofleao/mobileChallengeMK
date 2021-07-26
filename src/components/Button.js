@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Keyboard, Text, TouchableOpacity } from "react-native";
 import colors from "../constants/colors";
 
-import Icon from "react-native-vector-icons/MaterialIcons";
+import Icon from "react-native-vector-icons/Feather";
 
 export default function Button({
   onPress,
@@ -13,6 +13,7 @@ export default function Button({
   bordered,
   plain,
   floatable,
+  disabled,
   ...others
 }) {
   useEffect(() => {
@@ -30,6 +31,7 @@ export default function Button({
     else if (plain) buttonTheme.push(styles.buttonPlain);
     else buttonTheme.push(styles.buttonFilled);
     if (floatable) buttonTheme.push(styles.floatable);
+    if (disabled) buttonTheme.push(styles.disabled);
     return buttonTheme;
   };
 
@@ -43,6 +45,7 @@ export default function Button({
       <TouchableOpacity
         style={[styles.button, styles.iconButton, getButtonTheme()]}
         onPress={onPress}
+        {...others}
       >
         <Icon style={[styles.icon, getTextTheme()]} name={icon} />
       </TouchableOpacity>
@@ -70,7 +73,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     left: 0,
-
     bottom: 0,
     margin: 20,
   },
@@ -104,6 +106,9 @@ const styles = StyleSheet.create({
   },
   buttonFilled: {
     backgroundColor: colors.primary,
+  },
+  disabled: {
+    backgroundColor: colors.textPlaceHolder,
   },
   buttonBordered: {
     backgroundColor: colors.transparent,
