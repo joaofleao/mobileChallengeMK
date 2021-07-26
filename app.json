@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo_Square.png",
         "backgroundColor": "#29589D"
-      }
+      },
+      "package": "mk.SolutionsBlog"
     },
     "web": {
       "favicon": "./assets/logo.svg"
