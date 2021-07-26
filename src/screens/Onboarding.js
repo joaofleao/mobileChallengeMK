@@ -25,9 +25,7 @@ export default function Onboarding({ route, navigation }) {
       try {
         const name = await AsyncStorage.getItem("name");
 
-        if (name) {
-          acessApp(name);
-        }
+        if (name) if (name !== "") acessApp(name);
       } catch (error) {
         console.log(error.message);
       }

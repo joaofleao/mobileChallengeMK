@@ -64,7 +64,13 @@ export default function Search({ navigation }) {
     navigation.navigate("NewPost", { id });
   };
 
-  const logOut = () => {
+  const logOut = async () => {
+    try {
+      await AsyncStorage.setItem("name", "");
+    } catch (error) {
+      console.log(error.message);
+    }
+
     navigation.navigate("Onboarding");
   };
 
